@@ -1,9 +1,24 @@
-set(LIB_SRCS
+set(sources
   vtkPolyDataCorrespondenceFilter.cxx
   vtkICP.cxx
   vtkImplicitPolyDataDistance2.cxx
 )
 
+set(private_headers
+  icp/icp.hpp
+  icp/point2point.hpp
+  icp/point2plane.hpp
+)
+set(nowrap_classes
+  icp/icp
+  icp/point2plane
+  icp/point2point)
+
 vtk_module_add_module(VTK::ICP
-  SOURCES ${LIB_SRCS}
-  HEADERS ${LIB_SRC_HDRS} ${LIB_HDRS})  
+    CLASSES           ${classes}
+    TEMPLATE_CLASSES  ${template_classes}
+    SOURCES           ${sources}
+    NOWRAP_CLASSES    ${nowrap_classes}
+    HEADERS           ${headers}
+    PRIVATE_TEMPLATES ${private_templates}
+    PRIVATE_HEADERS   ${private_headers})
