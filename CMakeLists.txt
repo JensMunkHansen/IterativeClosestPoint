@@ -85,7 +85,7 @@ option(ICP_BUILD_ALL_MODULES "Build all modules by default" OFF)
 mark_as_advanced(ICP_BUILD_ALL_MODULES)
 
 set(icp_source_directories
-  "${CMAKE_CURRENT_SOURCE_DIR}/Source"
+  "${CMAKE_CURRENT_SOURCE_DIR}/ICP"
 )
 
 vtk_module_find_modules(icp_module_files ${icp_source_directories})
@@ -94,7 +94,7 @@ vtk_module_find_modules(icp_module_files ${icp_source_directories})
 vtk_module_find_kits(icp_kit_files ${icp_source_directories})
 
 vtk_module_scan(
-  MODULE_FILES        "${CMAKE_CURRENT_SOURCE_DIR}/Source/vtk.module"
+  MODULE_FILES        "${CMAKE_CURRENT_SOURCE_DIR}/ICP/vtk.module"
   KIT_FILES           ${icp_kit_files} # empty right now
   REQUEST_MODULES     ${icp_requested_modules}
   REJECT_MODULES      ${icp_rejected_modules}
