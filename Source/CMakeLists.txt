@@ -14,7 +14,8 @@ set(nowrap_classes
   icp/point2plane
   icp/point2point)
 
-vtk_module_add_module(VTK::ICP
+if(DEFINED VTK_MODULE_ENABLE_VTK_ICP)
+  vtk_module_add_module(VTK::ICP
     CLASSES           ${classes}
     TEMPLATE_CLASSES  ${template_classes}
     SOURCES           ${sources}
@@ -22,3 +23,9 @@ vtk_module_add_module(VTK::ICP
     HEADERS           ${headers}
     PRIVATE_TEMPLATES ${private_templates}
     PRIVATE_HEADERS   ${private_headers})
+
+  vtk_module_link(VTK::ICP
+    PRIVATE
+    VTK::CommonDataModel)
+endif()
+  

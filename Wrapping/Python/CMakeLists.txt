@@ -27,22 +27,6 @@ foreach (_icp_module IN LISTS icp_modules)
     ${_icp_module_python_files})
 endforeach()
 
-# Utility function for dumping variables
-function(dump_cmake_variables)
-  get_cmake_property(_variableNames VARIABLES)
-  list (SORT _variableNames)
-  foreach (_variableName ${_variableNames})
-    if (ARGV0)
-      unset(MATCHED)
-      string(REGEX MATCH ${ARGV0} MATCHED ${_variableName})
-      if (NOT MATCHED)
-        continue()
-      endif()
-    endif()
-    message(STATUS "${_variableName}=${${_variableName}}")
-  endforeach()
-endfunction()
-
 configure_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/icpmodules/all.py.in"
   "${CMAKE_BINARY_DIR}/${ICP_PYTHON_SITE_PACKAGES_SUFFIX}/icpmodules/all.py"
@@ -69,12 +53,6 @@ foreach (python_file IN LISTS python_files)
     string(APPEND _icpmodules_all "    \'${CMAKE_MATCH_1}\',\n")
   endif ()
 endforeach ()
-
-# TODO: On windows, the wrappers only work in Release mode. The only simple solution that
-#       I have come up with is to disable multiple configurations and set
-#       CMAKE_BUILD_TYPE=Release. For now, we only support wrappers in Release.....
-
-# dump_cmake_variables()
 
 set(ICP_PYTHON_CONFIGURATION_DEBUG "Debug" CACHE STRING "")
 set(ICP_PYTHON_CONFIGURATION_RELEASE "Release" CACHE STRING "")
