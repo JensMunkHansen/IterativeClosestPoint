@@ -198,4 +198,4 @@ if(BUILD_PYTHON_WRAPPERS)
 endif()
 
 # Utility function for dumping variables
-dump_cmake_variables()
+# dump_cmake_variables()

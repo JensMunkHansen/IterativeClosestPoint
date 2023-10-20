@@ -19,16 +19,4 @@ else:
                                   "@VTK_PYTHONPATH@"))
   
 # --------------------------------------
-@_sps_python_imports@
-
-## Stuff used by VTK - facilitated by added extra python files to dist.
-## There is no need to do this here, since VTK is already providing this
-
-## useful macro for getting type names
-#from .util.vtkConstants import vtkImageScalarTypeNameMacro
-#
-## import convenience decorators
-#from .util.misc import calldata_type
-#
-## import the vtkVariant helpers
-#from .util.vtkVariant import *
+@_icp_python_imports@
