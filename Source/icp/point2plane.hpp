@@ -23,13 +23,12 @@ public:
   using typename ICP<PointType, WeightType, N>::Matrix66;
   using typename ICP<PointType, WeightType, N>::Block33;
 
-#if 0
-  AffineN Symmetric(
-    MatrixNX& P, MatrixNX& Q, const MatrixNX& NP, const MatrixNX& NQ, const VectorX& W);
-#endif
-
-  AffineN Update(
-    MatrixNX& source, MatrixNX& target, const MatrixNX& targetNormals, const VectorX& weights);
+  /*
+   * Zhang, Zhengyou (1994). "Iterative point matching for registration of
+   * free-form curves and surfaces". International Journal of Computer
+   * Vision. 13 (12): 119–152. CiteSeerX 10.1.1.175.770.
+   */
+  AffineN Update(MatrixNX& source, MatrixNX& target, const MatrixNX& targetNormals, const VectorX& weights);
   AffineN Update(MatrixNX& source, MatrixNX& target, const VectorX& weights);
 
 private:

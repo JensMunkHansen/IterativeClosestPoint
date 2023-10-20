@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen
 // SPDX-License-Identifier: BSD-3-Clause
 /**
- * @class   vtkSpsImplicitPolyDataDistance
+ * @class   vtkImplicitPolyDataDistance(2)
  * @brief   Implicit function that computes the distance from a point x to the nearest point p on an
  * input vtkPolyData.
  *
@@ -23,6 +23,10 @@
  * by Cory Quammen, Chris Weigle C., Russ Taylor
  * http://hdl.handle.net/10380/3262
  * http://www.midasjournal.org/browse/publication/797
+ *
+ * The code is modified and made thread-safe and an option for
+ * returning both points and gradients is added to the original implementation
+ * of vtkImplicitPolyDataDistance of VTK.
  */
 
 #ifndef vtkImplicitPolyDataDistance2_h
@@ -66,6 +70,12 @@ public:
    */
   double EvaluateFunctionAndGetClosestPoint(double x[3], double closestPoint[3]);
 
+  /**
+   * Evaluate plane equation of nearest triangle to point x[3] and provides closest point on an
+   * input vtkPolyData as well as the graident.
+   */
+  double EvaluateFunctionGradientAndGetClosestPoint(double x[3], double g[3], double closestPoint[3]);
+  
   /**
    * Set the input vtkPolyData used for the implicit function
    * evaluation.  Passes input through an internal instance of

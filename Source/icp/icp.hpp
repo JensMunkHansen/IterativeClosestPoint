@@ -1,5 +1,6 @@
 #pragma once
 
+#include <icp/config.h>
 #include "vtk_eigen.h"
 #include VTK_EIGEN(Dense)
 
@@ -31,4 +32,4 @@ public:
 
 protected:
 };
-}
+}  // namespace icp

@@ -65,8 +65,10 @@ PointToPoint<PointType, WeightType, N>::Update(
   return this->Update(source, target, weights);
 }
 
+#ifdef ICP_DOUBLE_SUPPORT
 template class PointToPoint<double, double, 3U>;
 template class PointToPoint<double, double, 2U>;
+#endif
 template class PointToPoint<float, float, 3U>;
 template class PointToPoint<float, float, 2U>;
 }

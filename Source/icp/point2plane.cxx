@@ -100,7 +100,8 @@ PointToPlane<PointType, WeightType, N>::Update(
   /// Return transformation
   return transformation;
 }
-
-template class PointToPlane<double, double, 3U>;
+#ifdef ICP_DOUBLE_SUPPORT
+  template class PointToPlane<double, double, 3U>;
+#endif
 template class PointToPlane<float, float, 3U>;
 }

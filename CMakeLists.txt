@@ -11,22 +11,6 @@ foreach(policy
   endif()
 endforeach()
 
-# Utility function for dumping variables
-function(dump_cmake_variables)
-  get_cmake_property(_variableNames VARIABLES)
-  list (SORT _variableNames)
-  foreach (_variableName ${_variableNames})
-    if (ARGV0)
-      unset(MATCHED)
-      string(REGEX MATCH ${ARGV0} MATCHED ${_variableName})
-      if (NOT MATCHED)
-        continue()
-      endif()
-    endif()
-    message(STATUS "${_variableName}=${${_variableName}}")
-  endforeach()
-endfunction()
-
 include(CMakeDependentOption)
 
 project(ICP
@@ -38,6 +22,8 @@ set(ICP_MINOR_VERSION 0)
 # Allow custom cmake overrides - not present right now
 set(icp_cmake_dir ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
 set(CMAKE_MODULE_PATH ${icp_cmake_dir} ${CMAKE_MODULE_PATH})
+
+include(icpDumpVariable)
 
 find_package(Git QUIET)
 

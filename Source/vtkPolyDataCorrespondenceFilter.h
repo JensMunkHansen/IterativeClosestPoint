@@ -8,10 +8,6 @@ class vtkTransform;
 class vtkImplicitPolyDataDistance2;
 class vtkPolyDataNormals;
 
-// TODO:
-//  * Use vtkSmartPointer for the functor
-//  * Support double precision
-
 class VTKICP_EXPORT vtkPolyDataCorrespondenceFilter : public vtkPolyDataAlgorithm
 {
 public:
@@ -21,7 +17,8 @@ public:
 
   //@{
   /**
-   *
+   * Search direction for correspondences. Source is input port 0,
+   * target is input port 1.
    */
   enum SearchDirection
   {
@@ -30,24 +27,37 @@ public:
   };
   //@}
 
+  //@{
+  /**
+   * Set/Get an implicit transform applied to the source from input
+   * port 0. This transform is applied before correspondences are
+   * found.
+   */
   vtkGetObjectMacro(Transform, vtkTransform);
   virtual void SetTransform(vtkTransform* transform);
+  //@}
+
   //@{
   /**
    * Set/Get the maximum number of landmarks sampled in your dataset.
    * If your dataset is dense, then you will typically not need all the
-   * points to compute the ICP transform. The default is 200.
+   * points to compute the ICP transform. The default is VTK_INT_MAX
    */
   vtkSetMacro(MaximumNumberOfLandmarks, vtkIdType);
   vtkGetMacro(MaximumNumberOfLandmarks, vtkIdType);
   //@}
 
+  //@{
+  /**
+   * Output precision for the points and normals. The default is SINGLE_PRECISION
+   */
   vtkSetMacro(OutputPrecision, int);
   vtkGetMacro(OutputPrecision, int);
+  //@}
 
   //@{
   /**
-   * Set/Get the maximum distance used for searching for correspondences.
+   * Set/Get the maximum distance used for searching for correspondences. Default is 10.0
    */
   vtkSetMacro(MaximumDistance, double);
   vtkGetMacro(MaximumDistance, double);
@@ -55,7 +65,7 @@ public:
 
   //@{
   /**
-   * Search direction
+   * Search direction. The default is from source (port 0) to target (port 1)
    */
   vtkSetClampMacro(SearchDirection, int, SourceToTarget, TargetToSource);
   vtkGetMacro(SearchDirection, int);
@@ -64,10 +74,10 @@ public:
 
   //@{
   /**
-   *
+   * Include origin normals.
    */
-  vtkSetMacro(IncludeSourceNormals, vtkTypeBool);
-  vtkGetMacro(IncludeSourceNormals, vtkTypeBool);
+  vtkSetMacro(IncludeOriginNormals, vtkTypeBool);
+  vtkGetMacro(IncludeOriginNormals, vtkTypeBool);
   //@}
 
 protected:
@@ -81,7 +91,7 @@ protected:
   vtkIdType MaximumNumberOfLandmarks;
   int SearchDirection;
   int OutputPrecision;
-  vtkTypeBool IncludeSourceNormals;
+  vtkTypeBool IncludeOriginNormals;
   vtkTransform* Transform;
   vtkImplicitPolyDataDistance2* SourceLocator;
   vtkImplicitPolyDataDistance2* TargetLocator;

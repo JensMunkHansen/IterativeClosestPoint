@@ -8,8 +8,6 @@
 class vtkPolyData;
 class vtkPolyDataCorrespondenceFilter;
 
-// TODO: Handle general vtkPointSet (not just vtkPolyData)
-
 class VTKICP_EXPORT vtkICP : public vtkLinearTransform
 {
 public:
@@ -20,11 +18,17 @@ public:
   vtkGetMacro(MaximumNumberOfIterations, int);
   vtkSetMacro(MaximumNumberOfIterations, int);
 
+  //@{
+  /**
+   * Point-matching metric types
+   */
   enum MetricType : int
   {
     MetricPointToPoint = 0,
     MetricPointToPlane = 1,
   };
+  //@}
+
   //@{
   /**
    * Specify the source and target data sets.
@@ -47,11 +51,7 @@ public:
 
   //@{
   /**
-   * Specify the mean distance mode. This mode expresses how the mean
-   * distance is computed. The RMS mode is the square root of the average
-   * of the sum of squares of the closest point distances. The Absolute
-   * Value mode is the mean of the sum of absolute values of the closest
-   * point distances. The default is VTK_ICP_MODE_RMS
+   * Set/Get the point-matching metric type
    */
   vtkSetClampMacro(Metric, int, MetricPointToPoint, MetricPointToPlane);
   vtkGetMacro(Metric, int);
@@ -70,7 +70,7 @@ public:
   //@{
   /**
    * Starts the process by translating source centroid to target centroid.
-   * The default is Off.
+   * The default is Off. TODO: Support this
    */
   vtkSetMacro(StartByMatchingCentroids, vtkTypeBool);
   vtkGetMacro(StartByMatchingCentroids, vtkTypeBool);

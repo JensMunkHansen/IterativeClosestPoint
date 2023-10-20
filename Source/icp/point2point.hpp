@@ -18,12 +18,16 @@ public:
   using typename ICP<PointType, WeightType, N>::MatrixNN;
   using typename ICP<PointType, WeightType, N>::MatrixXX;
 
+  /*
+    Besl, Paul J.; N.D. McKay (1992). "A Method for Registration of
+    3-D Shapes". IEEE Transactions on Pattern Analysis and Machine
+    Intelligence. 14 (2): 239–256. doi:10.1109/34.121791
+  */
   AffineN Update(MatrixNX& source, MatrixNX& target, const VectorX& weights);
 
   AffineN Update(
     MatrixNX& source, MatrixNX& target, const MatrixNX& targetNormals, const VectorX& weights);
 
 private:
-  void ClosestRotation(const MatrixNX& M, MatrixNX& R);
 };
 } // namespace icp

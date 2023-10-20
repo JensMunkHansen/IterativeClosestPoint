@@ -117,7 +117,7 @@ struct Functor
       originPoint[1] = static_cast<double>(points.Get(begin, 1));
       originPoint[2] = static_cast<double>(points.Get(begin, 2));
       Filter->GetTransform()->InternalTransformPoint(originPoint, originPoint);
-      signedDistance = Locator->SharedEvaluate(originPoint, gradient, closestPoint, &type);
+      signedDistance = Locator->EvaluateFunctionGradientAndGetClosestPoint(originPoint, gradient, closestPoint);
 
       if (signedDistance < Filter->GetMaximumDistance())
       {
@@ -347,7 +347,7 @@ vtkCxxSetObjectMacro(vtkPolyDataCorrespondenceFilter, Transform, vtkTransform);
 
 vtkPolyDataCorrespondenceFilter::vtkPolyDataCorrespondenceFilter()
 {
-  this->MaximumDistance = 16.3;
+  this->MaximumDistance = 10.0;
   this->MaximumNumberOfLandmarks = VTK_INT_MAX;
   this->OutputPrecision = vtkAlgorithm::DEFAULT_PRECISION;
   this->SourceLocator = vtkImplicitPolyDataDistance2::New();
@@ -357,7 +357,7 @@ vtkPolyDataCorrespondenceFilter::vtkPolyDataCorrespondenceFilter()
   this->SourceNormals->ConsistencyOn();
   this->SourceNormals->ComputePointNormalsOn();
 
-  this->IncludeSourceNormals = false;
+  this->IncludeOriginNormals = false;
   this->SearchDirection = SourceToTarget;
   this->Transform = vtkTransform::New();
   this->SetNumberOfInputPorts(2);
@@ -453,7 +453,7 @@ int vtkPolyDataCorrespondenceFilter::RequestData(vtkInformation* vtkNotUsed(requ
   vtkSmartPointer<vtkDataArray> sourceNormals = nullptr;
 
   // If we need source normals
-  if (this->IncludeSourceNormals)
+  if (this->IncludeOriginNormals)
   {
     this->SourceNormals->SetInputData(source);
 
@@ -499,7 +499,7 @@ int vtkPolyDataCorrespondenceFilter::RequestData(vtkInformation* vtkNotUsed(requ
     originNormals = vtkSmartPointer<vtkFloatArray>::New();
     points->SetDataTypeToFloat();
     landmarks->SetDataTypeToFloat();
-    if (this->IncludeSourceNormals)
+    if (this->IncludeOriginNormals)
     {
       NormalsFunctor<vtkFloatArray, vtkFloatArray, vtkFloatArray, vtkFloatArray> fun0(
         vtkFloatArray::SafeDownCast(source->GetPoints()->GetData()),
@@ -540,7 +540,7 @@ int vtkPolyDataCorrespondenceFilter::RequestData(vtkInformation* vtkNotUsed(requ
   landmarksNormals->SetName("Normals");
   output0->SetPoints(points);
 
-  if (this->IncludeSourceNormals)
+  if (this->IncludeOriginNormals)
   {
     originNormals->SetName("Normals");
     output0->GetPointData()->AddArray(originNormals);

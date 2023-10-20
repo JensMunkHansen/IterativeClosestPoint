@@ -1,8 +1,10 @@
-set(sources
-  vtkPolyDataCorrespondenceFilter.cxx
-  vtkICP.cxx
-  vtkImplicitPolyDataDistance2.cxx
+set(classes
+  vtkPolyDataCorrespondenceFilter
+  vtkICP
+  vtkImplicitPolyDataDistance2
 )
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/icp/config.h.in" "${CMAKE_CURRENT_BINARY_DIR}/icp/config.h" @ONLY)
 
 set(private_headers
   icp/icp.hpp

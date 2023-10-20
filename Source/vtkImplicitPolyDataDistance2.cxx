@@ -113,6 +113,13 @@ double vtkImplicitPolyDataDistance2::EvaluateFunctionAndGetClosestPoint(
                                                    // vtkPolyData stored in p (normal not used).
 }
 
+double vtkImplicitPolyDataDistance2::EvaluateFunctionGradientAndGetClosestPoint(double x[3],
+										double g[3], double closestPoint[3])
+{
+  vtkDataObject::AttributeTypes type;
+  return SharedEvaluate(x, g, closestPoint, &type);
+}
+
 //------------------------------------------------------------------------------
 void vtkImplicitPolyDataDistance2::EvaluateGradient(double x[3], double g[3])
 {
