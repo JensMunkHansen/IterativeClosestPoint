@@ -10,9 +10,7 @@ exists - as a start only only alternative is implemented. Instead of
 minimizing point distance, the point-to-plane distance is minimized,
 when registering the point $p$ to $q$.
 
-$
-\|(R(\theta)p + t - q)\cdot q\|,
-$
+$\|(R(\theta)p + t - q)\cdot q\|,$
 
 where $R$ and $t$ is the rotation and translation, which are
 optimized.
@@ -47,6 +45,6 @@ VTK. No attention has been given to performance (yet).
 ## Example
 
 There is a small Python example in
-'./ICP/Testing/Python/RegistrationDemo.py' demonstrating how
+[RegistrationDemo](./ICP/Testing/Python/RegistrationDemo.py) demonstrating how
 registration using a point-to-plane metric converges in much fewer
 iterations than the conventional point-to-point metric.
