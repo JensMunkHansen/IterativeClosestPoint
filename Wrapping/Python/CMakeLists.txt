@@ -3,7 +3,7 @@
 #       the python executable.
 
 # This file is copied and adapted from VTK/Wrapping/Python/CMakeLists.txt
-# and there is a lot of rendundant material.
+# and there may be some rendundant material.
 
 set(_icpmodules_all)
 set(_icp_python_imports)
@@ -45,6 +45,8 @@ endif ()
 set(python_files
   icp.py
   icpmodules/__init__.py.in
+  icpmodules/util/__init__.py
+  icpmodules/util/io.py
 )
 
 foreach (python_file IN LISTS python_files)

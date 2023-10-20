@@ -18,7 +18,11 @@ PRIVATE_DEPENDS
   VTK::CommonSystem
   VTK::CommonTransforms
   VTK::FiltersGeneral
-  VTK::vtksys
   VTK::eigen  
+  VTK::vtksys
 TEST_DEPENDS
+  VTK::CommonComputationalGeometry
+  VTK::CommonSystem
+  VTK::FiltersSources
   VTK::TestingCore
+  VTK::TestingRendering
