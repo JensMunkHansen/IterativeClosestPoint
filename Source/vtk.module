@@ -1,0 +1,24 @@
+NAME
+  VTK::ICP
+LIBRARY_NAME
+  vtkICP
+GROUPS
+  StandAlone
+DEPENDS
+  VTK::CommonCore
+  VTK::CommonMath
+  VTK::CommonDataModel
+  VTK::CommonExecutionModel
+  VTK::CommonMisc
+  VTK::CommonTransforms
+  VTK::FiltersGeneral
+  VTK::FiltersCore
+PRIVATE_DEPENDS
+  VTK::CommonMath
+  VTK::CommonSystem
+  VTK::CommonTransforms
+  VTK::FiltersGeneral
+  VTK::vtksys
+  VTK::eigen  
+TEST_DEPENDS
+  VTK::TestingCore

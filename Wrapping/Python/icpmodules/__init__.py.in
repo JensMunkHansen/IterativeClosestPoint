@@ -1,0 +1,141 @@
+r"""
+Currently, this package is experimental and may change in the future.
+"""
+from __future__ import absolute_import
+import sys
+
+
+def _windows_dll_path():
+    """
+    TODO: Verify that this does the job on Windows. It needs to provide the right
+          DLL directories.
+
+          How on earth can we provide the directory to TBB and Qt. Only the VTK
+          build process knows where they reside!!!!
+    """
+    import os
+    _icp_python_path = '@VTK_PYTHON_SITE_PACKAGES_SUFFIX@/icpmodules'
+    _icp_dll_path = '@CMAKE_INSTALL_BINDIR@'
+    # Compute the DLL path based on the location of the file and traversing up
+    # the installation prefix to append the DLL path.
+    _icp_dll_directory = os.path.dirname(os.path.abspath(__file__))
+    # Loop while we have components to remove.
+    while _icp_python_path not in ('', '.', '/'):
+        # Strip a directory away.
+        _icp_python_path = os.path.dirname(_icp_python_path)
+        _icp_dll_directory = os.path.dirname(_icp_dll_directory)
+    _icp_dll_directory = os.path.join(_icp_dll_directory, _icp_dll_path)
+    if os.path.exists(_icp_dll_directory):
+        # We never remove this path; it is required for DENTAL to work and there's
+        # no scope where we can easily remove the directory again.
+        print(_icp_dll_directory)
+        _ = os.add_dll_directory(_icp_dll_directory)
+
+    # Build tree support. TODO: Figure this out
+    try:
+        from . import _build_paths
+
+        # Add any paths needed for the build tree.
+        for path in _build_paths.paths:
+            print(path)
+            if os.path.exists(path):
+                _ = os.add_dll_directory(path)
+    except ImportError:
+        # Relocatable install tree (or non-Windows).
+        pass
+
+# Again due to CPython 3.8
+def _windows_dll_path_extra():
+    # Extra directories added. TODO: Figure out how to locate these.
+    import os
+
+    filedir = os.path.dirname(os.path.realpath(__file__))
+
+    # TODO: Find more elegantly
+    config = '@DENTAL_PYTHON_CONFIGURATION@'  # "Release"
+    if ("@VTK_PREFIX_PATH@".upper().find("DEBUG") >= 0):
+        config = "Debug"
+    else:
+        config = "Release"
+    
+
+    QT_BINARY_DIR = None
+    TBB_BINARY_DIR = None
+    EMBREE_BINARY_DIR = "C:/Program Files/embree3/bin"
+    if not os.path.exists(EMBREE_BINARY_DIR):
+        EMBREE_BINARY_DIR = "C:/Program Files/embree/bin"
+    TBB_BINARY_DIR = "c:/Program Files (x86)/TBB/bin"
+    if not os.path.exists(TBB_BINARY_DIR):
+        TBB_BINARY_DIR = "c:/Program Files/TBB/bin"
+        if not os.path.exists(TBB_BINARY_DIR):
+            TBB_BINARY_DIR = None
+    
+    # Search for PyQt5 or PySide2 in case we are in a package
+    pyside2 = os.path.join(filedir, "../PySide2")
+    pyqt5 = os.path.join(filedir, "../PyQt5")
+    if os.path.exists(pyside2):
+        QT_BINARY_DIR = pyside2
+    elif os.path.exists(pyqt5):
+        QT_BINARY_DIR = pyqt5
+    else:
+        # Assume that we are developing
+        qtdir = "c:/Qt/5.15.2/msvc2019_64/bin"
+        if os.path.exists(qtdir):
+            QT_BINARY_DIR = qtdir
+
+    # We anticipate if VTK is using TBB it is deployed together with their DLLs
+
+    if os.path.exists(os.path.join(filedir, "../vtk.py")):
+        # For the distribution install tree
+        icpbindir = filedir
+        VTK_PYTHON_BINARY_DIR = os.path.join(filedir, "../vtkmodules")
+        VTK_BINARY_DIR = os.path.join(filedir, "../vtkmodules")
+    else:
+        # For the build tree (assume building next to top dir)
+        icpbindir = os.path.normpath(os.path.join(filedir, "../../../" + config))
+        VTK_PYTHON_BINARY_DIR = os.path.join(
+            os.path.join("@VTK_PREFIX_PATH@",
+                         "@VTK_PYTHONPATH@"),
+            "vtkmodules")
+        VTK_BINARY_DIR = os.path.join("@VTK_PREFIX_PATH@", "bin/" + config)
+
+    # Add all the directories - use site prefix
+    os.add_dll_directory(VTK_PYTHON_BINARY_DIR)
+    os.add_dll_directory(VTK_BINARY_DIR)
+    os.add_dll_directory(icpbindir)
+    if QT_BINARY_DIR is not None:
+        os.add_dll_directory(QT_BINARY_DIR)
+    if TBB_BINARY_DIR is not None:
+        os.add_dll_directory(TBB_BINARY_DIR)
+    if EMBREE_BINARY_DIR is not None:
+        os.add_dll_directory(EMBREE_BINARY_DIR)
+
+    # Creating a distribution
+
+    # 1. Install the library and copy icp.py and icpmodules into site-packages
+
+    # 2. Change the QT_BINARY_DIR above to the location of the Qt DLLs
+    #    - most likely the new parent directory.
+    # 3. Copy the binaries for TBB into site-packages somewhere and update
+    #    the location TBB_BINARY_DIR above
+    # 4. Change icpbindir to be the location of the dll or pyd files. Most likely,
+    #    this is the location of this file.
+
+# CPython 3.8 added behaviors which modified the DLL search path on Windows to
+# only search "blessed" paths. When importing SMTK, ensure that SMTK's DLLs are
+# in this set of "blessed" paths.
+if sys.version_info >= (3, 8) and sys.platform == 'win32':
+    # Copied from VTK's python wrapper. It did not do the job!!!
+    _windows_dll_path()
+    # Extra directories added manually
+    _windows_dll_path_extra()
+
+
+#------------------------------------------------------------------------------
+# list the contents
+__all__ = [
+@_icpmodules_all@]
+
+#------------------------------------------------------------------------------
+# get the version
+__version__ = "@ICP_MAJOR_VERSION@.@ICP_MINOR_VERSION@.@ICP_BUILD_VERSION@"
