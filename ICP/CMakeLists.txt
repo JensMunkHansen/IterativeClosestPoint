@@ -10,11 +10,13 @@ set(private_headers
   icp/icp.hpp
   icp/point2point.hpp
   icp/point2plane.hpp
+  icp/plane2plane.hpp
 )
 set(nowrap_classes
   icp/icp
   icp/point2plane
-  icp/point2point)
+  icp/point2point
+  icp/plane2plane)
 
 if(DEFINED VTK_MODULE_ENABLE_VTK_ICP)
   vtk_module_add_module(VTK::ICP

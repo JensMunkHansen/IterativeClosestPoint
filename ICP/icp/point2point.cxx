@@ -14,6 +14,14 @@ PointToPoint<PointType, WeightType, N>::~PointToPoint()
 
 template <typename PointType, typename WeightType, int N>
 typename PointToPoint<PointType, WeightType, N>::AffineN
+PointToPoint<PointType, WeightType, N>::Update(MatrixNX& source, MatrixNX& target,
+  const MatrixNX& sourceNormals, const MatrixNX& targetNormals, const VectorX& weights)
+{
+  return this->Update(source, target, weights);
+}
+
+template <typename PointType, typename WeightType, int N>
+typename PointToPoint<PointType, WeightType, N>::AffineN
 PointToPoint<PointType, WeightType, N>::Update(
   MatrixNX& source, MatrixNX& target, const VectorX& weights)
 {

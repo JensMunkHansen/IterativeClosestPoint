@@ -14,6 +14,7 @@
 
 #include <icp/point2plane.hpp>
 #include <icp/point2point.hpp>
+#include <icp/plane2plane.hpp>
 
 using vtkeigen::Map;
 
@@ -86,9 +87,13 @@ const char* vtkICP::GetMetricModeAsString()
   {
     return "Point-to-point";
   }
-  else
+  else if (this->Metric == MetricPointToPlane)
   {
     return "Point-to-plane";
+  }
+  else
+  {
+    return "Plane-to-plane";
   }
 }
 
@@ -148,8 +153,13 @@ void vtkICP::InternalUpdate()
   icp::ICP<float, float, 3>* icp = nullptr;
   if (this->Metric == MetricPointToPlane)
     icp = new icp::PointToPlane<float, float, 3>;
-  else
+  else if (this->Metric == MetricPointToPoint)
     icp = new icp::PointToPoint<float, float, 3>;
+  else
+  {
+    icp = new icp::PlaneToPlane<float, float, 3>;
+    this->Correspondences->SetIncludeOriginNormals(true);
+  }
 
   vtkNew<vtkTransform> transform;
   transform->PostMultiply();
@@ -157,16 +167,26 @@ void vtkICP::InternalUpdate()
 
   this->NumberOfIterations = 0;
   vtkFloatArray* sourcePointDataArray = nullptr;
-  vtkFloatArray* sourceNormals = nullptr;
+  vtkFloatArray* sourceNormalsDataArray = nullptr;
   vtkFloatArray* targetPointDataArray = nullptr;
   vtkFloatArray* targetNormalsDataArray = nullptr;
   vtkDoubleArray* targetNormalsDataArrayDouble = nullptr;
+
+  if (this->Metric == MetricPlaneToPlane)
+  {
+    // TODO: Add check for source normals
+  }
+
+  
   for (vtkIdType it = 0; it < this->MaximumNumberOfIterations; it++)
   {
     this->Correspondences->Update();
 
     sourcePointDataArray =
       vtkFloatArray::SafeDownCast(this->Correspondences->GetOutput(0)->GetPoints()->GetData());
+    sourceNormalsDataArray = vtkFloatArray::SafeDownCast(
+        this->Correspondences->GetOutput(0)->GetPointData()->GetArray(
+            "Normals"));
     targetPointDataArray =
       vtkFloatArray::SafeDownCast(this->Correspondences->GetOutput(1)->GetPoints()->GetData());
     targetNormalsDataArray = vtkFloatArray::SafeDownCast(
@@ -181,6 +201,12 @@ void vtkICP::InternalUpdate()
     vtkeigen::Matrix3Xf normals = Map<vtkeigen::Matrix3Xf>(
       targetNormalsDataArray->GetPointer(0), 3, targetNormalsDataArray->GetNumberOfTuples());
 
+    vtkeigen::Matrix3Xf sourceNormals;
+    
+    if (this->Metric == MetricPlaneToPlane)
+      sourceNormals = Map<vtkeigen::Matrix3Xf>(
+        sourceNormalsDataArray->GetPointer(0), 3, sourceNormalsDataArray->GetNumberOfTuples());
+    
     vtkeigen::VectorXf W = vtkeigen::VectorXf::Ones(source.cols());
     vtkeigen::VectorXf U = vtkeigen::VectorXf::Zero(source.cols());
 
@@ -193,7 +219,7 @@ void vtkICP::InternalUpdate()
         break;
       }
     }
-    auto affine = icp->Update(source, target, normals, W);
+    auto affine = icp->Update(source, target, sourceNormals, normals, W);
     vtkNew<vtkMatrix4x4> mat;
     auto eigenMat = affine.matrix();
     this->NumberOfIterations++;

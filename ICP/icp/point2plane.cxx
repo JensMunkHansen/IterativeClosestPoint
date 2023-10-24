@@ -26,6 +26,14 @@ PointToPlane<PointType, WeightType, N>::Update(
 
 template <typename PointType, typename WeightType, int N>
 typename PointToPlane<PointType, WeightType, N>::AffineN
+PointToPlane<PointType, WeightType, N>::Update(MatrixNX& source, MatrixNX& target,
+  const MatrixNX& sourceNormals, const MatrixNX& targetNormals, const VectorX& weights)
+{
+  return Update(source, target, targetNormals, weights);
+}
+
+template <typename PointType, typename WeightType, int N>
+typename PointToPlane<PointType, WeightType, N>::AffineN
 PointToPlane<PointType, WeightType, N>::Update(
   MatrixNX& source, MatrixNX& target, const MatrixNX& targetNormals, const VectorX& weights)
 {
@@ -101,7 +109,7 @@ PointToPlane<PointType, WeightType, N>::Update(
   return transformation;
 }
 #ifdef ICP_DOUBLE_SUPPORT
-  template class PointToPlane<double, double, 3U>;
+template class PointToPlane<double, double, 3U>;
 #endif
 template class PointToPlane<float, float, 3U>;
 }

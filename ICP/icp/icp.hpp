@@ -1,7 +1,7 @@
 #pragma once
 
-#include <icp/config.h>
 #include "vtk_eigen.h"
+#include <icp/config.h>
 #include VTK_EIGEN(Dense)
 
 namespace icp
@@ -28,8 +28,11 @@ public:
     MatrixNX& source, MatrixNX& target, const MatrixNX& targetNormals, const VectorX& weights) = 0;
   virtual AffineN Update(MatrixNX& source, MatrixNX& target, const VectorX& weights) = 0;
 
+  virtual AffineN Update(MatrixNX& source, MatrixNX& target, const MatrixNX& sourceNormals,
+    const MatrixNX& targetNormals, const VectorX& weights) = 0;
+
   virtual ~ICP() = default;
 
 protected:
 };
-}  // namespace icp
+} // namespace icp

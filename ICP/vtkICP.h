@@ -26,6 +26,7 @@ public:
   {
     MetricPointToPoint = 0,
     MetricPointToPlane = 1,
+    MetricPlaneToPlane = 2, // TODO: Rename this to symmetrized
   };
   //@}
 
@@ -53,10 +54,11 @@ public:
   /**
    * Set/Get the point-matching metric type
    */
-  vtkSetClampMacro(Metric, int, MetricPointToPoint, MetricPointToPlane);
+  vtkSetClampMacro(Metric, int, MetricPointToPoint, MetricPlaneToPlane);
   vtkGetMacro(Metric, int);
   void SetMetricToPointToPoint() { this->SetMetric(MetricPointToPoint); }
   void SetMetricToPointToPlane() { this->SetMetric(MetricPointToPlane); }
+  void SetMetricToPlaneToPlane() { this->SetMetric(MetricPlaneToPlane); }
   const char* GetMetricModeAsString();
   //@}
 

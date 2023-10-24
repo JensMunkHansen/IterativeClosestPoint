@@ -28,6 +28,9 @@ public:
   AffineN Update(
     MatrixNX& source, MatrixNX& target, const MatrixNX& targetNormals, const VectorX& weights);
 
+  AffineN Update(MatrixNX& source, MatrixNX& target, const MatrixNX& sourceNormals,
+    const MatrixNX& targetNormals, const VectorX& weights);
+
 private:
 };
 } // namespace icp

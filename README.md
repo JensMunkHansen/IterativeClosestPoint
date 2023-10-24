@@ -31,11 +31,14 @@ implemented using `vtkSMPTools` to speed-up the performance.
 
 **vtkICP** Registration algorithm inheriting from `vtkLinearTransform`
 similarly to `vtkIterativeClosestPoint`. Right now, a point-to-point
-as well as a point-to-plane metric can be chosen. The first algorithm
-is optimized using the standard closed form SVD and the second is
-optimized using simple steepest descent. A Gauss-Newton version will
-follow at some point supporting various priors. For both algorithm a distance
-threshold can be set as well as the maximum number of landmarks.
+metric, a point-to-plane metric as well as a symmetrized version of
+the point-to-plane metric by Szymon Rusinkiewicz
+[symmetrized](https://gfx.cs.princeton.edu/pubs/Rusinkiewicz_2019_ASO/symm_icp.pdf)
+can be chosen. The first algorithm is optimized using the standard
+closed form SVD and the latter ones are optimized using simple
+steepest descent. A Gauss-Newton version will follow at some point
+supporting various priors. For both algorithm a distance threshold can
+be set as well as the maximum number of landmarks.
 
 ## Build and run
 
