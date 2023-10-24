@@ -40,6 +40,10 @@ steepest descent. A Gauss-Newton version will follow at some point
 supporting various priors. For both algorithm a distance threshold can
 be set as well as the maximum number of landmarks.
 
+Currently, we use the interpolated normal using
+`vtkImplicitPolyDataDistance`. We should return the interpolated
+normal instead.
+
 ## Build and run
 
 It is implemented following the directory and build structure of
