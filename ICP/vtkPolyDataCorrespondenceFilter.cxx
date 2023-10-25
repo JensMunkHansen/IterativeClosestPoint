@@ -104,7 +104,7 @@ struct Functor
     double signedDistance;
     double originPoint[3];
     double closestPoint[3];
-    double gradient[3];
+    double normal[3];
     vtkDataObject::AttributeTypes type = vtkDataObject::NUMBER_OF_ATTRIBUTE_TYPES;
 
     for (; begin < end; ++begin)
@@ -117,9 +117,9 @@ struct Functor
       originPoint[1] = static_cast<double>(points.Get(begin, 1));
       originPoint[2] = static_cast<double>(points.Get(begin, 2));
       Filter->GetTransform()->InternalTransformPoint(originPoint, originPoint);
-      signedDistance = Locator->EvaluateFunctionGradientAndGetClosestPoint(originPoint, gradient, closestPoint);
+      signedDistance = Locator->ClosestPointAndNormal(originPoint, normal, closestPoint);
 
-      if (signedDistance < Filter->GetMaximumDistance())
+      if (std::fabs(signedDistance) < Filter->GetMaximumDistance())
       {
         auto landmark = landmarks[lastIndex];
         auto origin = origins[lastIndex];
@@ -129,7 +129,7 @@ struct Functor
         {
           origin[c] = static_cast<PointTypeOut>(originPoint[c]);
           landmark[c] = static_cast<PointTypeOut>(closestPoint[c]);
-          normal[c] = static_cast<VecTypeOut>(gradient[c]);
+          normal[c] = static_cast<VecTypeOut>(normal[c]);
         }
         lastIndex++;
       }
@@ -269,8 +269,7 @@ struct NormalsFunctor
     double signedDistance;
     double originPoint[3];
     double closestPoint[3];
-    double gradient[3];
-    vtkDataObject::AttributeTypes type = vtkDataObject::NUMBER_OF_ATTRIBUTE_TYPES;
+    double normal[3];
 
     for (; begin < end; ++begin)
     {
@@ -283,9 +282,9 @@ struct NormalsFunctor
       originPoint[2] = static_cast<double>(points.Get(begin, 2));
 
       Filter->GetTransform()->InternalTransformPoint(originPoint, originPoint);
-      signedDistance = Locator->SharedEvaluate(originPoint, gradient, closestPoint, &type);
+      signedDistance = Locator->ClosestPointAndNormal(originPoint, normal, closestPoint);
 
-      if (signedDistance < Filter->GetMaximumDistance())
+      if (std::fabs(signedDistance) < Filter->GetMaximumDistance())
       {
         auto origin = origins[lastIndex];
         auto originNormal = originNormals[lastIndex];
@@ -297,7 +296,7 @@ struct NormalsFunctor
           origin[c] = static_cast<PointTypeOut>(originPoint[c]);
           originNormal[c] = static_cast<VecTypeOut>(pointNormals.Get(begin, c));
           landmark[c] = static_cast<PointTypeOut>(closestPoint[c]);
-          landmarkNormal[c] = static_cast<VecTypeOut>(gradient[c]);
+          landmarkNormal[c] = static_cast<VecTypeOut>(normal[c]);
         }
         lastIndex++;
       }

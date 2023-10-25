@@ -75,6 +75,11 @@ public:
    * input vtkPolyData as well as the graident.
    */
   double EvaluateFunctionGradientAndGetClosestPoint(double x[3], double g[3], double closestPoint[3]);
+
+  /**
+   * Naiive implementation of absolute distance, closest point and surface normal.
+   */
+  double ClosestPointAndNormal(double x[3], double awnorm[3], double closestPoint[3]);
   
   /**
    * Set the input vtkPolyData used for the implicit function
