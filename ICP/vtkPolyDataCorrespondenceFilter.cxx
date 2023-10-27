@@ -466,13 +466,6 @@ int vtkPolyDataCorrespondenceFilter::RequestData(vtkInformation* vtkNotUsed(requ
       vtkDebugMacro(<< "Number of vertex normals does not match the number of points");
       return 0;
     }
-#if 0
-    std::cout << "MTime: " << sourceNormals->GetMTime() << std::endl;
-    std::cout << "Number of source points: " << source->GetNumberOfPoints() << std::endl;
-    std::cout << "Number of source vertex normals: " << sourceNormals->GetNumberOfTuples()
-              << std::endl;
-    std::cout << "Data type: " << sourceNormals->GetDataType() << std::endl;
-#endif
   }
 
   vtkIdType step = 1;
