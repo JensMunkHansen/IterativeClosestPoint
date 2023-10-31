@@ -32,7 +32,7 @@ vtkICP::vtkICP()
   this->CheckMeanDistance = false;
   this->MeanDistance = 0.0;
   this->MaximumMeanDistance = 0.01;
-  this->StartByMatchingCentroids = false;
+  this->MaximumDistance = 10.0;
   this->Metric = vtkICP::MetricPointToPlane;
   this->Correspondences = vtkPolyDataCorrespondenceFilter::New();
   this->Correspondences->SetOutputPrecision(vtkAlgorithm::SINGLE_PRECISION);
@@ -74,7 +74,7 @@ void vtkICP::PrintSelf(ostream& os, vtkIndent indent)
   os << indent << "MaximumNumberOfIterations: " << this->MaximumNumberOfIterations << "\n";
   os << indent << "CheckMeanDistance: " << this->CheckMeanDistance << "\n";
   os << indent << "MaximumMeanDistance: " << this->MaximumMeanDistance << "\n";
-  os << indent << "StartByMatchingCentroids: " << this->StartByMatchingCentroids << "\n";
+  os << indent << "MaximumDistance: " << this->MaximumDistance << "\n";
   os << indent << "NumberOfIterations: " << this->NumberOfIterations << "\n";
   os << indent << "MeanDistance: " << this->MeanDistance << "\n";
   os << indent << "Metric: " << this->GetMetricModeAsString() << "\n";
@@ -149,7 +149,8 @@ void vtkICP::InternalUpdate()
   this->Correspondences->SetInputData(0, this->Source);
   this->Correspondences->SetInputData(1, this->Target);
   this->Correspondences->SetMaximumNumberOfLandmarks(this->GetMaximumNumberOfLandmarks());
-
+  this->Correspondences->SetMaximumDistance(this->GetMaximumDistance());
+  
   icp::ICP<float, float, 3>* icp = nullptr;
   if (this->Metric == MetricPointToPlane)
     icp = new icp::PointToPlane<float, float, 3>;

@@ -71,16 +71,6 @@ public:
 
   //@{
   /**
-   * Starts the process by translating source centroid to target centroid.
-   * The default is Off. TODO: Support this
-   */
-  vtkSetMacro(StartByMatchingCentroids, vtkTypeBool);
-  vtkGetMacro(StartByMatchingCentroids, vtkTypeBool);
-  vtkBooleanMacro(StartByMatchingCentroids, vtkTypeBool);
-  //@}
-
-  //@{
-  /**
    * Force the algorithm to check the mean distance between two iterations.
    * Default is Off.
    */
@@ -105,6 +95,14 @@ public:
   vtkGetMacro(MaximumMeanDistance, double);
   //@}
 
+  //@{
+  /**
+   * Set/Get the maximum distance used for searching for correspondences. Default is 10.0
+   */
+  vtkSetMacro(MaximumDistance, double);
+  vtkGetMacro(MaximumDistance, double);
+  //@}
+  
   //@{
   /**
    * Get the mean distance between the last two iterations.
@@ -138,6 +136,7 @@ protected:
   vtkTypeBool StartByMatchingCentroids;
   double MaximumMeanDistance;
   double MeanDistance;
+  double MaximumDistance;
   vtkPolyData* Source;
   vtkPolyData* Target;
   vtkPolyDataCorrespondenceFilter* Correspondences;
