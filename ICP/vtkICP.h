@@ -142,7 +142,6 @@ protected:
   int MaximumNumberOfLandmarks;
   int Metric;
   vtkTypeBool CheckMeanDistance;
-  vtkTypeBool StartByMatchingCentroids;
   double MaximumMeanDistance;
   double MeanDistance;
   double MaximumDistance;
