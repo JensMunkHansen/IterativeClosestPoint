@@ -83,18 +83,20 @@ void vtkICP::PrintSelf(ostream& os, vtkIndent indent)
 //----------------------------------------------------------------------------
 const char* vtkICP::GetMetricModeAsString()
 {
-  if (this->Metric == MetricPointToPoint)
-  {
-    return "Point-to-point";
-  }
-  else if (this->Metric == MetricPointToPlane)
-  {
-    return "Point-to-plane";
-  }
-  else
-  {
-    return "Plane-to-plane";
-  }
+  const char* retval = nullptr;
+  
+  switch (this->Metric)
+    {
+    case MetricPointToPoint:
+      retval = "Point-to-point";
+      break;
+    case MetricPointToPlane:
+      retval = "Point-to-plane";
+      break;
+    default:
+      retval = "Plane-to-plane";
+    }
+  return retval;
 }
 
 //----------------------------------------------------------------------------
@@ -119,6 +121,7 @@ void vtkICP::InternalDeepCopy(vtkAbstractTransform* transform)
   this->SetCheckMeanDistance(t->GetCheckMeanDistance());
   this->SetMaximumMeanDistance(t->GetMaximumMeanDistance());
   this->SetMaximumNumberOfLandmarks(t->GetMaximumNumberOfLandmarks());
+  this->SetMaximumDistance(t->GetMaximumDistance());
 
   this->Modified();
 }
@@ -176,8 +179,12 @@ void vtkICP::InternalUpdate()
   if (this->Metric == MetricPlaneToPlane)
   {
     // TODO: Add check for source normals
+    if (!this->Source->GetPointData()->GetArray("Normals"))
+    {
+      vtkErrorMacro(<< "Plane to plane metric requires source normals");
+      return;
+    }
   }
-
   
   for (vtkIdType it = 0; it < this->MaximumNumberOfIterations; it++)
   {

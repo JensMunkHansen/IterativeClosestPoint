@@ -1,14 +1,23 @@
 #pragma once
 
-#include "vtkPolyDataCorrespondenceFilter.h"
-#include "vtkICPModule.h" // For export macro
+#include "config.h"
+
+// For export macro
+#if SPS_BUILD
+#include "vtkSpsCommonDataModelModule.h"
+#define VTKXXX_EXPORT VTKSPSCOMMONDATAMODEL_EXPORT
+#else
+#include "vtkICPModule.h"
+#define VTKXXX_EXPORT VTKICP_EXPORT
+#endif
 
 #include "vtkLinearTransform.h"
+#include "vtkPolyDataCorrespondenceFilter.h"
 
 class vtkPolyData;
 class vtkPolyDataCorrespondenceFilter;
 
-class VTKICP_EXPORT vtkICP : public vtkLinearTransform
+class VTKXXX_EXPORT vtkICP : public vtkLinearTransform
 {
 public:
   static vtkICP* New();
@@ -102,7 +111,7 @@ public:
   vtkSetMacro(MaximumDistance, double);
   vtkGetMacro(MaximumDistance, double);
   //@}
-  
+
   //@{
   /**
    * Get the mean distance between the last two iterations.
