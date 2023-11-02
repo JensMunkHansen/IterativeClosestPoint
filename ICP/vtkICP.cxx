@@ -233,8 +233,8 @@ void vtkICP::InternalUpdate()
     this->NumberOfIterations++;
 
     // We need to transpose anyway
-    for (size_t c = 0; c < eigenMat.cols(); c++)
-      for (size_t r = 0; r < eigenMat.rows(); r++)
+    for (int c = 0; c < eigenMat.cols(); c++)
+      for (int r = 0; r < eigenMat.rows(); r++)
         mat->SetElement(r, c, eigenMat(r, c));
 
     this->Correspondences->GetTransform()->Concatenate(mat);

@@ -48,12 +48,12 @@ PlaneToPlane<PointType, WeightType, N>::Update(
   MatrixNX Norm = NP + NQ;
 
   // compute A and b of linear system
-  int num_points = P.cols();
+  typename MatrixNX::Index num_points = P.cols();
 
   Matrix66 LHS = Matrix66::Zero();
   Vector6 RHS = Vector6::Zero();
 
-  for (int i = 0; i < num_points; ++i)
+  for (typename MatrixNX::Index i = 0; i < num_points; ++i)
   {
     VectorN n_i = Norm.col(i);
     VectorN p_i = Pbar.col(i);
