@@ -116,9 +116,9 @@ endif()
 
 option(ICP_VERSIONED_INSTALL "Install artifacts with versioned names." ON)
 mark_as_advanced(ICP_VERSIONED_INSTALL)
-set(vtk_version_suffix "")
+set(icp_version_suffix "")
 if (ICP_VERSIONED_INSTALL)
-  set(vtk_version_suffix "-${ICP_MAJOR_VERSION}.${ICP_MINOR_VERSION}")
+  set(icp_version_suffix "-${ICP_MAJOR_VERSION}.${ICP_MINOR_VERSION}")
 endif ()
 
 set(ICP_CUSTOM_LIBRARY_SUFFIX "<DEFAULT>"

@@ -1,4 +1,4 @@
-#include "point2plane.hpp"
+#include "point2plane.h"
 #include <iostream>
 
 namespace icp

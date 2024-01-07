@@ -1,4 +1,4 @@
-#include <icp/plane2plane.hpp>
+#include <icp/plane2plane.h>
 
 namespace icp
 {

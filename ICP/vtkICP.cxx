@@ -12,9 +12,9 @@
 #include "vtk_eigen.h"
 #include VTK_EIGEN(Dense)
 
-#include <icp/point2plane.hpp>
-#include <icp/point2point.hpp>
-#include <icp/plane2plane.hpp>
+#include <icp/point2plane.h>
+#include <icp/point2point.h>
+#include <icp/plane2plane.h>
 
 using vtkeigen::Map;
 

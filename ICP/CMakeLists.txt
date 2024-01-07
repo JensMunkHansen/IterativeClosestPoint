@@ -9,10 +9,10 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/icp/config.h.in" "${CMAKE_CURRENT_BI
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/config.h.in" "${CMAKE_CURRENT_BINARY_DIR}/config.h" @ONLY)
 
 set(private_headers
-  icp/icp.hpp
-  icp/point2point.hpp
-  icp/point2plane.hpp
-  icp/plane2plane.hpp
+  icp/icp.h
+  icp/point2point.h
+  icp/point2plane.h
+  icp/plane2plane.h
 )
 set(nowrap_classes
   icp/icp
