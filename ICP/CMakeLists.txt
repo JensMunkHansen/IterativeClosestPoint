@@ -14,24 +14,37 @@ set(private_headers
   icp/point2plane.h
   icp/plane2plane.h
 )
+
+# If we add classes, we will get an install warning, the subdirectorie icp
+# is not installed. We add the source instead as pure source files
+# This is new in CMake 3.23
 set(nowrap_classes
   icp/icp
   icp/point2plane
   icp/point2point
   icp/plane2plane)
 
+# Source files (instead of classes)
+set(sources
+  icp/icp.cxx
+  icp/point2plane.cxx
+  icp/point2point.cxx
+  icp/plane2plane.cxx)
+  
 if(DEFINED VTK_MODULE_ENABLE_VTK_ICP)
   vtk_module_add_module(VTK::ICP
     CLASSES           ${classes}
     TEMPLATE_CLASSES  ${template_classes}
     SOURCES           ${sources}
-    NOWRAP_CLASSES    ${nowrap_classes}
+    #NOWRAP_CLASSES    ${nowrap_classes} # Gives a warning in CMake 3.23
     HEADERS           ${headers}
     PRIVATE_TEMPLATES ${private_templates}
-    PRIVATE_HEADERS   ${private_headers})
-
+    #PRIVATE_HEADERS   ${private_headers} # Gives a warning in CMake 3.23
+  )
+  
   vtk_module_link(VTK::ICP
     PRIVATE
     VTK::CommonDataModel)
+  
 endif()
   
