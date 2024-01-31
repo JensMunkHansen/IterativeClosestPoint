@@ -23,6 +23,9 @@ set(ICP_MINOR_VERSION 0)
 set(icp_cmake_dir ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
 set(CMAKE_MODULE_PATH ${icp_cmake_dir} ${CMAKE_MODULE_PATH})
 
+# Download dependencies through CMake
+include(dependencies)
+
 include(icpDumpVariable)
 
 find_package(Git QUIET)
