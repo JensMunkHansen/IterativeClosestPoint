@@ -186,7 +186,9 @@ icpr = vtkICP()
 
 icpr.CheckMeanDistanceOn()
 icpr.SetMaximumMeanDistance(0.001)
-icpr.SetMetricToPointToPlane()
+icpr.SetMetricToPointToPoint()
+#icpr.SetMetricToPointToPlane() # BUG
+icpr.SetMetricToPlaneToPlane()
 icpr.SetMaximumNumberOfIterations(100)
 icpr.SetMaximumNumberOfLandmarks(100)
 icpr.SetSource(running_source_polydata)

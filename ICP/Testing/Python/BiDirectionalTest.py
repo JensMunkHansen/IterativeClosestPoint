@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, 3*"../" + "build/lib/python3.11/site-packages")
+
 from icpmodules.util.scene_utils import (
     vtk_subfigs,
     vtk_show_points,

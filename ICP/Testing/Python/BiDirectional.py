@@ -6,7 +6,6 @@ import socket
 # Jacobian
 #
 # Loop with line-search
-
 from icpmodules.vtkICP import vtkImplicitPolyDataIntersection
 
 from vtkmodules.vtkCommonExecutionModel import vtkStreamingDemandDrivenPipeline
