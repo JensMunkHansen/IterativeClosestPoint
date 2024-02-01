@@ -47,6 +47,8 @@ set(python_files
   icpmodules/__init__.py.in
   icpmodules/util/__init__.py
   icpmodules/util/io.py
+  icpmodules/util/scene_utils.py
+  icpmodules/util/misc.py
 )
 
 foreach (python_file IN LISTS python_files)

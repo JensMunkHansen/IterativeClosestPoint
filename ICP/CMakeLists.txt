@@ -3,6 +3,7 @@ set(classes
   vtkICP
   vtkMultiMeshAlignment
   vtkImplicitPolyDataDistance2
+  vtkImplicitPolyDataIntersection
 )
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/icp/config.h.in" "${CMAKE_CURRENT_BINARY_DIR}/icp/config.h" @ONLY)
