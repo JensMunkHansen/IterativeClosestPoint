@@ -41,13 +41,9 @@ sourceFilter = surfaceNormals
 
 source = sourceFilter.GetOutput()
 
-transform = vtkTransform()
-transform.Translate(0.0, 0.0, -3.0)
-transformPoly = vtkTransformPolyDataFilter()
-transformPoly.SetTransform(transform)
-transformPoly.SetInputConnection(sourceFilter.GetOutputPort())
-transformPoly.Update()
-target = transformPoly.GetOutput()
+hills1 = vtk_random_hills(nHills=25)
+hills1.Update()
+target = hills1.GetOutput()
 
 targetMapper = vtkPolyDataMapper()
 targetMapper.SetInputData(target)
