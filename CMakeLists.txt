@@ -24,7 +24,9 @@ set(icp_cmake_dir ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
 set(CMAKE_MODULE_PATH ${icp_cmake_dir} ${CMAKE_MODULE_PATH})
 
 # Download dependencies through CMake
+if (UNIX)
 include(dependencies)
+endif()
 
 include(icpDumpVariable)
 
@@ -154,7 +156,7 @@ vtk_module_build(
   TEST_OUTPUT_DATA_DIRECTORY  "${CMAKE_CURRENT_BINARY_DIR}/ExternalData/Testing")
 
 if(BUILD_PYTHON_WRAPPERS)
-  find_package(PythonInterp ${VTK_PYTHON_VERSION} QUIET)
+  find_package(Python3 REQUIRED COMPONENTS Interpreter Development QUIET)
 
   vtk_module_wrap_python(
     MODULES         ${icp_modules}

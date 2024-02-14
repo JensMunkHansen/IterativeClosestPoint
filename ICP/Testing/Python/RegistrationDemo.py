@@ -6,8 +6,11 @@ import sys
 # Improved version
 filedir = os.path.dirname(os.path.realpath(__file__))
 
-sys.path.insert(0, os.path.join(filedir, '../../../build/lib/python3.11/site-packages'))
-
+if os.name == 'posix':
+    sys.path.insert(0, os.path.join(filedir, '../../../build/lib/python3.11/site-packages'))
+else:
+    sys.path.insert(0, os.path.join(filedir, '../../../build/bin/Lib/site-packages'))
+    
 from icpmodules.vtkICP import vtkICP
 from icpmodules.util.io import vtkPolyDataReaderFactory
 

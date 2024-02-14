@@ -24,7 +24,7 @@ def _windows_dll_path():
         # Strip a directory away.
         _icp_python_path = os.path.dirname(_icp_python_path)
         _icp_dll_directory = os.path.dirname(_icp_dll_directory)
-    _icp_dll_directory = os.path.join(_icp_dll_directory, _icp_dll_path)
+    _icp_dll_directory = os.path.join(_icp_dll_directory, _icp_dll_path).replace("\\","/")
     if os.path.exists(_icp_dll_directory):
         # We never remove this path; it is required for DENTAL to work and there's
         # no scope where we can easily remove the directory again.
@@ -71,8 +71,8 @@ def _windows_dll_path_extra():
             TBB_BINARY_DIR = None
     
     # Search for PyQt5 or PySide2 in case we are in a package
-    pyside2 = os.path.join(filedir, "../PySide2")
-    pyqt5 = os.path.join(filedir, "../PyQt5")
+    pyside2 = os.path.join(filedir, "../PySide2").replace("\\","/")
+    pyqt5 = os.path.join(filedir, "../PyQt5").replace("\\","/")
     if os.path.exists(pyside2):
         QT_BINARY_DIR = pyside2
     elif os.path.exists(pyqt5):
@@ -85,19 +85,19 @@ def _windows_dll_path_extra():
 
     # We anticipate if VTK is using TBB it is deployed together with their DLLs
 
-    if os.path.exists(os.path.join(filedir, "../vtk.py")):
+    if os.path.exists(os.path.join(filedir, "../vtk.py").replace("\\","/")):
         # For the distribution install tree
         icpbindir = filedir
-        VTK_PYTHON_BINARY_DIR = os.path.join(filedir, "../vtkmodules")
-        VTK_BINARY_DIR = os.path.join(filedir, "../vtkmodules")
+        VTK_PYTHON_BINARY_DIR = os.path.join(filedir, "../vtkmodules").replace("\\","/")
+        VTK_BINARY_DIR = os.path.join(filedir, "../vtkmodules").replace("\\","/")
     else:
         # For the build tree (assume building next to top dir)
-        icpbindir = os.path.normpath(os.path.join(filedir, "../../../" + config))
+        icpbindir = os.path.normpath(os.path.join(filedir, "../../../")).replace("\\","/")
         VTK_PYTHON_BINARY_DIR = os.path.join(
             os.path.join("@VTK_PREFIX_PATH@",
                          "@VTK_PYTHONPATH@"),
-            "vtkmodules")
-        VTK_BINARY_DIR = os.path.join("@VTK_PREFIX_PATH@", "bin/" + config)
+            "vtkmodules").replace("\\","/")
+        VTK_BINARY_DIR = os.path.join("@VTK_PREFIX_PATH@", "bin/").replace("\\","/")
 
     # Add all the directories - use site prefix
     os.add_dll_directory(VTK_PYTHON_BINARY_DIR)

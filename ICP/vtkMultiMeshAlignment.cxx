@@ -184,6 +184,7 @@ bool vtkMultiMeshAlignment::TestKabsch()
   kabsch->Update(target, source, tx, residuals);
   delete kabsch;
   cout << tx.affine();
+  return true;
 }
 
 //----------------------------------------------------------------------------
