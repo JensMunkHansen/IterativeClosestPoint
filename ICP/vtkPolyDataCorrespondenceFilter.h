@@ -65,6 +65,14 @@ public:
 
   //@{
   /**
+   * Set/Get the minimum value for the dot product of normals. Default is 0.0
+   */
+  vtkSetMacro(MinNormalDot, double);
+  vtkGetMacro(MinNormalDot, double);
+  //@}
+
+  //@{
+  /**
    * Search direction. The default is from source (port 0) to target (port 1)
    */
   vtkSetClampMacro(SearchDirection, int, SourceToTarget, TargetToSource);
@@ -88,6 +96,7 @@ protected:
 
   int RequestData(vtkInformation*, vtkInformationVector**, vtkInformationVector*) override;
   double MaximumDistance;
+  double MinNormalDot;
   vtkIdType MaximumNumberOfLandmarks;
   int SearchDirection;
   int OutputPrecision;

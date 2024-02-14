@@ -60,6 +60,49 @@ bool vtkMultiMeshAlignment::PairPolyData(
   int targetIndex = this->PolyDataCollection->IndexOfFirstOccurence(target);
   bool success = sourceIndex != -1 && targetIndex != -1;
 
+  vtkIdType step = 4;
+  float maxDist = 0.2f;
+  vtkIdType maxNumberOfLandmarks = source->GetNumberOfPoints() / 4;
+  Correspondences->SetTransform(initialTransform);
+  Correspondences->SetIncludeOriginNormals(true);
+  Correspondences->SetMaximumNumberOfLandmarks(maxNumberOfLandmarks);
+  Correspondences->SetMaximumDistance(0.2);
+  Correspondences->SetMinNormalDot(0.95);
+  Correspondences->SetInputData(0, source);
+  Correspondences->SetInputData(1, target);
+  Correspondences->SetSourceToTarget();
+
+  this->Correspondences->Update();
+
+  vtkSmartPointer<vtkFloatArray> sourcePointDataArray =
+    vtkFloatArray::SafeDownCast(this->Correspondences->GetOutput(0)->GetPoints()->GetData());
+  vtkSmartPointer<vtkFloatArray> sourceNormalsDataArray = vtkFloatArray::SafeDownCast(
+    this->Correspondences->GetOutput(0)->GetPointData()->GetArray("Normals"));
+  vtkSmartPointer<vtkFloatArray> targetPointDataArray =
+    vtkFloatArray::SafeDownCast(this->Correspondences->GetOutput(1)->GetPoints()->GetData());
+  vtkSmartPointer<vtkFloatArray> targetNormalsDataArray = vtkFloatArray::SafeDownCast(
+    this->Correspondences->GetOutput(1)->GetPointData()->GetArray("Normals"));
+
+  // Filter correspondendes based on normals
+  if (sourceNormalsDataArray && targetNormalsDataArray)
+  {
+    for (vtkIdType i = 0; i < sourceNormalsDataArray->GetNumberOfTuples(); i++)
+    {
+      double* point = sourcePointDataArray->GetTuple(i);
+      std::cout << point[0] << ", " << point[1] << ", " << point[2] << std::endl;
+      float arr[3];
+      sourcePointDataArray->GetTypedTuple(i, arr);
+      float arr0[3];
+      initialTransform->InternalTransformPoint(arr, arr0);
+      sourcePointDataArray->SetTuple3(i, arr0[0], arr0[1], arr0[2]);
+      point = sourcePointDataArray->GetTuple(i);
+      std::cout << point[0] << ", " << point[1] << ", " << point[2] << std::endl;
+
+      // TODO: Transform
+    }
+    std::cout << "Success" << std::endl;
+  }
+  //  this->
   // 1. Use correspondence filter
   // 2. Criteria
 

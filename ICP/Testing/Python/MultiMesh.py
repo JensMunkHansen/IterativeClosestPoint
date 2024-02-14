@@ -14,7 +14,10 @@ for i in range(4):
     sphereSource = vtkSphereSource()
     sphereSource.Update()
     collection.AddItem(sphereSource.GetOutput())
-    transforms.AddItem(vtkTransform())
+    transform = vtkTransform()
+    transform.Translate(0.1, 0.0, 0.0)
+    transform.Update()
+    transforms.AddItem(transform)
 meshAlignment.SetPolyDataCollection(collection)
 meshAlignment.SetTransformCollection(transforms)
 allGood = True
@@ -22,4 +25,4 @@ for i in range(4):
     for j in range(4):
         if j != i:
             allGood = allGood and meshAlignment.PairPolyData(collection.GetItemAsObject(i),
-                                                             collection.GetItemAsObject(j))
+                                                             collection.GetItemAsObject(j), transforms.GetItemAsObject(0))

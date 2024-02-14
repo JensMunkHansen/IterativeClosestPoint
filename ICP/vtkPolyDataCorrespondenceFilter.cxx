@@ -283,8 +283,10 @@ struct NormalsFunctor
 
       Filter->GetTransform()->InternalTransformPoint(originPoint, originPoint);
       signedDistance = Locator->ClosestPointAndNormal(originPoint, normal, closestPoint);
+      double dotNormal = vtkMath::Dot(normal, landmarkNormals[lastIndex]);
 
-      if (std::fabs(signedDistance) < Filter->GetMaximumDistance())
+      if (std::fabs(signedDistance) < Filter->GetMaximumDistance() &&
+        dotNormal > Filter->GetMinNormalDot())
       {
         auto origin = origins[lastIndex];
         auto originNormal = originNormals[lastIndex];
