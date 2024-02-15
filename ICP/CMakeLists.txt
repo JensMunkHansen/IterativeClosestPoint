@@ -10,7 +10,7 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/icp/config.h.in" "${CMAKE_CURRENT_BI
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/config.h.in" "${CMAKE_CURRENT_BINARY_DIR}/config.h" @ONLY)
 
-set(private_headers
+set(private_templates
   icp/icp.h
   icp/point2point.h
   icp/point2plane.h

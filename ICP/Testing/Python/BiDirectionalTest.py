@@ -1,5 +1,4 @@
-import sys
-import os
+import os, sys
 
 if os.name == 'posix':
   sys.path.insert(0, 3*"../" + "build/lib/python3.11/site-packages")
@@ -7,8 +6,6 @@ else:
   # On windows, we use the installed one
   sys.path.insert(0, 3*"../" + "install/bin/Lib/site-packages")
 
-from BiDirectional import BiDirectional
-  
 from icpmodules.util.scene_utils import (
     vtk_subfigs,
     vtk_show_points,
@@ -38,6 +35,8 @@ from vtkmodules.vtkCommonDataModel import (
     vtkDataObject,
     vtkDataSetAttributes)
 
+from BiDirectional import BiDirectional
+
 hills = vtk_random_hills()
 hills.Update()
 surfaceNormals = vtkPolyDataNormals()
@@ -47,13 +46,9 @@ sourceFilter = surfaceNormals
 
 source = sourceFilter.GetOutput()
 
-transform = vtkTransform()
-transform.Translate(0.0, 0.0, -3.0)
-transformPoly = vtkTransformPolyDataFilter()
-transformPoly.SetTransform(transform)
-transformPoly.SetInputConnection(sourceFilter.GetOutputPort())
-transformPoly.Update()
-target = transformPoly.GetOutput()
+hills1 = vtk_random_hills(nHills=25)
+hills1.Update()
+target = hills1.GetOutput()
 
 targetMapper = vtkPolyDataMapper()
 targetMapper.SetInputData(target)
@@ -137,3 +132,4 @@ iren.Start()
 
 
 
+>>>>>>> e06713c0908ef0604bd1e80e7b27ed283f1b45d0
