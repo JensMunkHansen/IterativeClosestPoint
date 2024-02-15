@@ -1,6 +1,14 @@
 import sys
-sys.path.insert(0, 3*"../" + "build/lib/python3.11/site-packages")
+import os
 
+if os.name == 'posix':
+  sys.path.insert(0, 3*"../" + "build/lib/python3.11/site-packages")
+else:
+  # On windows, we use the installed one
+  sys.path.insert(0, 3*"../" + "install/bin/Lib/site-packages")
+
+from BiDirectional import BiDirectional
+  
 from icpmodules.util.scene_utils import (
     vtk_subfigs,
     vtk_show_points,
@@ -29,8 +37,6 @@ from vtkmodules.vtkCommonDataModel import (
     vtkPolyData,
     vtkDataObject,
     vtkDataSetAttributes)
-
-from BiDirectional import BiDirectional
 
 hills = vtk_random_hills()
 hills.Update()
