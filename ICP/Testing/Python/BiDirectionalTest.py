@@ -128,8 +128,3 @@ iren.SetRenderWindow(renWin)
 renWin.Render()
 renderers[1].ResetCamera()
 iren.Start()
-
-
-
-
->>>>>>> e06713c0908ef0604bd1e80e7b27ed283f1b45d0
