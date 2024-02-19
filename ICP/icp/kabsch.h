@@ -17,8 +17,13 @@ public:
   using Matrix3 = vtkeigen::Matrix<PointType, 3, 3>;
   using Affine3 = vtkeigen::Transform<PointType, 3, vtkeigen::Affine>;
   using MatrixX = vtkeigen::Matrix<PointType, vtkeigen::Dynamic, vtkeigen::Dynamic>;
+
+  using Matrix3X = vtkeigen::Matrix<PointType, 3, vtkeigen::Dynamic>;
+
   bool Update(const std::vector<Vector3>& target, const std::vector<Vector3>& source, Affine3& tx,
     PointType& rms);
+
+  bool Update(Matrix3X& source, Matrix3X& target, Affine3& tx, PointType& rms);
 };
 
 } // namespace icp

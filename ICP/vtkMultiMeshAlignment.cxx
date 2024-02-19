@@ -86,20 +86,7 @@ bool vtkMultiMeshAlignment::PairPolyData(
   // Filter correspondendes based on normals
   if (sourceNormalsDataArray && targetNormalsDataArray)
   {
-    for (vtkIdType i = 0; i < sourceNormalsDataArray->GetNumberOfTuples(); i++)
-    {
-      double* point = sourcePointDataArray->GetTuple(i);
-      std::cout << point[0] << ", " << point[1] << ", " << point[2] << std::endl;
-      float arr[3];
-      sourcePointDataArray->GetTypedTuple(i, arr);
-      float arr0[3];
-      initialTransform->InternalTransformPoint(arr, arr0);
-      sourcePointDataArray->SetTuple3(i, arr0[0], arr0[1], arr0[2]);
-      point = sourcePointDataArray->GetTuple(i);
-      std::cout << point[0] << ", " << point[1] << ", " << point[2] << std::endl;
 
-      // TODO: Transform
-    }
     std::cout << "Success" << std::endl;
   }
   //  this->
