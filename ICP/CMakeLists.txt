@@ -1,7 +1,6 @@
 set(classes
   vtkPolyDataCorrespondenceFilter
   vtkICP
-  vtkMultiMeshAlignment
   vtkImplicitPolyDataDistance2
   vtkImplicitPolyDataIntersection
 )
@@ -15,7 +14,6 @@ set(private_templates
   icp/point2point.h
   icp/point2plane.h
   icp/plane2plane.h
-  icp/kabsch.h
 )
 
 # If we add classes, we will get an install warning, the subdirectorie icp
@@ -25,17 +23,14 @@ set(nowrap_classes
   icp/icp
   icp/point2plane
   icp/point2point
-  icp/plane2plane
-  icp/kabsch)
+  icp/plane2plane)
 
 # Source files (instead of classes)
 set(sources
   icp/icp.cxx
   icp/point2plane.cxx
   icp/point2point.cxx
-  icp/plane2plane.cxx
-  icp/kabsch.cxx
-  multiMeshInternals.cxx)
+  icp/plane2plane.cxx)
   
 if(DEFINED VTK_MODULE_ENABLE_VTK_ICP)
   vtk_module_add_module(VTK::ICP
